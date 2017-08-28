@@ -18,6 +18,7 @@ package com.google.accounttransfer.sample;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -30,7 +31,13 @@ public class AccountTransferBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "Received intent:" + intent);
-        // Long runnnig tasks shouldn't happen here. Start a service to do long running tasks.
-        context.startService(AccountTransferService.getIntent(context, intent.getAction()));
+        // Long running tasks, like calling Account Transfer API, shouldn't happen here. Start a
+        // foreground service to perform long running tasks.
+        Intent serviceIntent = AccountTransferService.getIntent(context, intent.getAction());
+        if (Build.VERSION.SDK_INT >= 26) {
+            context.startForegroundService(serviceIntent);
+        } else {
+            context.startService(serviceIntent);
+        }
     }
 }

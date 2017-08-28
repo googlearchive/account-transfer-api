@@ -5,6 +5,7 @@
   <string name="account_type">com.accountransfer.account.type</string>
 
   <string name="login_label">Log in</string>
+  <string name="copying_text">Copying account</string>
 
   <string name="refresh">REFRESH</string>
 </resources>
